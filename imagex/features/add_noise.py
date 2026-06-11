@@ -1,6 +1,6 @@
 import random
 from pathlib import Path
-from typing import Any
+from typing import Any, Optional
 
 import questionary
 from PIL import Image
@@ -30,7 +30,7 @@ def ask_args(files: list[Path]) -> dict[str, Any]:
     }
 
 
-def run(file: Path, output_path: Path, args: dict[str, Any] | None = None) -> bool:
+def run(file: Path, output_path: Path, args: Optional[dict[str, Any]] = None) -> bool:
     if args is None:
         msg = "args required for add_noise"
         raise ValueError(msg)

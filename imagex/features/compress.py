@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Any
+from typing import Any, Optional
 
 import questionary
 from PIL import Image
@@ -21,7 +21,7 @@ def ask_args(files: list[Path]) -> dict[str, Any]:
     return {"quality": max(1, min(100, int(quality)))}
 
 
-def run(file: Path, output_path: Path, args: dict[str, Any] | None = None) -> bool:
+def run(file: Path, output_path: Path, args: Optional[dict[str, Any]] = None) -> bool:
     if args is None:
         msg = "args required for compress (quality)"
         raise ValueError(msg)

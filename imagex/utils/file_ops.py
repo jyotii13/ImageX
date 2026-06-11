@@ -1,6 +1,7 @@
 import shutil
 from datetime import datetime
 from pathlib import Path
+from typing import Optional
 
 from imagex.config import BACKUP_DIR_NAME, is_image
 
@@ -13,7 +14,7 @@ def find_images(directory: Path) -> list[Path]:
     return files
 
 
-def backup_file(file: Path) -> Path | None:
+def backup_file(file: Path) -> Optional[Path]:
     backup_root = file.parent / BACKUP_DIR_NAME
     timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
     backup_dir = backup_root / timestamp
@@ -26,7 +27,7 @@ def backup_file(file: Path) -> Path | None:
 def get_output_path(
     file: Path,
     mode: str,
-    output_dir: Path | None = None,
+    output_dir: Optional[Path] = None,
 ) -> Path:
     if mode == "overwrite":
         return file

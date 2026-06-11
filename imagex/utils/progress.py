@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Any, Callable
+from typing import Any, Callable, Optional
 
 from rich.progress import (
     BarColumn,
@@ -16,8 +16,8 @@ def process_files(
     process_func: Callable[[Path, Path, dict[str, Any]], bool],
     feature_name: str,
     output_mode: str,
-    output_dir: Path | None = None,
-    args: dict[str, Any] | None = None,
+    output_dir: Optional[Path] = None,
+    args: Optional[dict[str, Any]] = None,
 ):
     if args is None:
         args = {}

@@ -1,5 +1,6 @@
 import sys
 from pathlib import Path
+from typing import Optional
 
 import questionary
 from rich.console import Console
@@ -29,7 +30,7 @@ def show_banner():
     console.print(Panel(text, width=50))
 
 
-def select_features() -> list[str] | None:
+def select_features() -> Optional[list[str]]:
     features = get_features()
 
     if not features:
@@ -57,7 +58,7 @@ def select_features() -> list[str] | None:
     return selected
 
 
-def ask_output_mode() -> tuple[str, Path | None]:
+def ask_output_mode() -> tuple[str, Optional[Path]]:
     mode = questionary.select(
         "Where should the processed images go?",
         choices=[
@@ -87,7 +88,7 @@ def ask_output_mode() -> tuple[str, Path | None]:
     return mode, output_dir
 
 
-def select_files(all_files: list[Path]) -> list[Path] | None:
+def select_files(all_files: list[Path]) -> Optional[list[Path]]:
     if not all_files:
         return None
 
