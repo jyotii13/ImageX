@@ -9,12 +9,16 @@ def _register(module):
     name = getattr(module, "NAME", None)
     description = getattr(module, "DESCRIPTION", "")
     run_func = getattr(module, "run", None)
+    ask_args_func = getattr(module, "ask_args", None)
+    needs_output = getattr(module, "NEEDS_OUTPUT_MODE", True)
 
     if name and run_func:
         REGISTRY[name] = {
             "name": name,
             "description": description,
             "run": run_func,
+            "ask_args": ask_args_func,
+            "needs_output": needs_output,
             "module": module.__name__,
         }
 

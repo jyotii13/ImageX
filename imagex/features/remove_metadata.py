@@ -1,4 +1,5 @@
 from pathlib import Path
+from typing import Any
 
 from PIL import Image
 
@@ -6,7 +7,7 @@ NAME = "Remove Metadata"
 DESCRIPTION = "Strip EXIF/XMP/IPTC data from images"
 
 
-def run(file: Path, output_path: Path) -> bool:
+def run(file: Path, output_path: Path, args: dict[str, Any] | None = None) -> bool:
     img = Image.open(file)
     fmt = img.format
 
