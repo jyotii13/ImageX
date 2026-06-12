@@ -134,6 +134,12 @@ Fills the watermark region by sampling surrounding pixels and blending with a bl
 
 ---
 
+## Rotate
+
+Rotates images 90° Left, 90° Right, or 180° (Upside Down). No quality loss — uses Pillow's built-in transpose.
+
+---
+
 ## Planned Features
 
 See [CONTRIBUTION.md](CONTRIBUTION.md) for how to add new features.
