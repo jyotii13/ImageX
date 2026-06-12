@@ -32,7 +32,7 @@ Features:
 """
 
 
-def _parse_args(argv: Optional[list[str]] = None) -> argparse.Namespace:
+def _parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         prog="imagex",
         description="Image processing CLI tool — right in your terminal",
