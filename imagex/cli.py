@@ -23,11 +23,21 @@ def fmt_size(size: int) -> str:
 
 
 def show_banner():
+    art = """[bold cyan]
+██╗███╗   ███╗ █████╗  ██████╗ ███████╗██╗  ██╗
+██║████╗ ████║██╔══██╗██╔════╝ ██╔════╝╚██╗██╔╝
+██║██╔████╔██║███████║██║  ███╗█████╗   ╚███╔╝
+██║██║╚██╔╝██║██╔══██║██║   ██║██╔══╝   ██╔██╗
+██║██║ ╚═╝ ██║██║  ██║╚██████╔╝███████╗██╔╝ ██╗
+╚═╝╚═╝     ╚═╝╚═╝  ╚═╝ ╚═════╝ ╚══════╝╚═╝  ╚═╝
+[/bold cyan]"""
+
     text = (
-        f"[bold cyan]ImageX[/bold cyan] [white]v{__version__}[/white]\n"
+        f"{art}"
+        f"[white]v{__version__}[/white]\n"
         "[dim]Image processing, right in ur CLI[/dim]"
     )
-    console.print(Panel(text, width=50))
+    console.print(Panel(text, width=60))
 
 
 def select_features() -> Optional[list[str]]:

@@ -1,4 +1,11 @@
-# ImageX
+```
+██╗███╗   ███╗ █████╗  ██████╗ ███████╗██╗  ██╗
+██║████╗ ████║██╔══██╗██╔════╝ ██╔════╝╚██╗██╔╝
+██║██╔████╔██║███████║██║  ███╗█████╗   ╚███╔╝
+██║██║╚██╔╝██║██╔══██║██║   ██║██╔══╝   ██╔██╗
+██║██║ ╚═╝ ██║██║  ██║╚██████╔╝███████╗██╔╝ ██╗
+╚═╝╚═╝     ╚═╝╚═╝  ╚═╝ ╚═════╝ ╚══════╝╚═╝  ╚═╝
+```
 
 Image processing CLI tool — right in your terminal.
 
@@ -7,14 +14,21 @@ pip install .
 imagex
 ```
 
-Then navigate to any folder with images and run `imagex`.
+Navigate to any folder with images and run `imagex`.
 
 ## Features
 
 | Feature | Description |
 |---|---|
 | Remove Metadata | Strip EXIF/XMP/IPTC (incl. AI generation markers) |
-| More coming soon | See [features.md](features.md) |
+| Convert Format | JPG ↔ PNG ↔ WEBP ↔ TIFF ↔ BMP ↔ GIF ↔ HEIC |
+| Compress / Optimize | Reduce file size with quality slider |
+| Resize | Percentage, exact dimensions, fit within bounds |
+| Rename Batch | Pattern-based renaming (%n, %o) |
+| Add Noise | Gaussian or salt & pepper (bypass AI detection) |
+| Watermark | Add text/image or remove existing |
+
+Full details in [OPERATIONS.md](OPERATIONS.md).
 
 ## Install
 
@@ -26,11 +40,11 @@ pip install .
 pip install -e .
 ```
 
-Then just run `imagex` from any folder.
+Then run `imagex` from any folder.
 
 ## Adding Features
 
-See [features.md](features.md) for the full roadmap and contribution guide.
+See [CONTRIBUTION.md](CONTRIBUTION.md) for the contribution guide.
 
 ## License
 
