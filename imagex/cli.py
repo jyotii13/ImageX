@@ -1,3 +1,4 @@
+import argparse
 import sys
 from pathlib import Path
 from typing import Optional
@@ -12,6 +13,38 @@ from imagex.utils.file_ops import find_images
 from imagex.utils.progress import process_files
 
 console = Console()
+
+USAGE = """
+Image processing CLI tool — right in your terminal.
+
+Run without arguments to launch the interactive menu:
+
+    imagex
+
+Features:
+  • Remove Metadata    Strip EXIF/XMP/IPTC (incl. AI generation markers)
+  • Convert Format     JPG ↔ PNG ↔ WEBP ↔ TIFF ↔ BMP ↔ GIF ↔ HEIC
+  • Compress/Optimize  Reduce file size with quality slider
+  • Resize             Percentage, exact dimensions, fit within bounds
+  • Rename Batch       Pattern-based renaming (%%n, %%o)
+  • Add Noise          Gaussian or salt & pepper (bypass AI detection)
+  • Watermark          Add text/image or remove existing
+"""
+
+
+def _parse_args(argv: list[str] | None = None) -> argparse.Namespace:
+    parser = argparse.ArgumentParser(
+        prog="imagex",
+        description="Image processing CLI tool — right in your terminal",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="Run without arguments to launch the interactive menu.",
+    )
+    parser.add_argument(
+        "--version",
+        action="version",
+        version=f"imagex v{__version__}",
+    )
+    return parser.parse_args(argv)
 
 
 def fmt_size(size: int) -> str:
@@ -131,6 +164,8 @@ def select_files(all_files: list[Path]) -> Optional[list[Path]]:
 
 
 def main():
+    _parse_args()
+
     try:
         show_banner()
 

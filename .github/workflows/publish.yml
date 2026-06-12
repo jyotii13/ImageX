@@ -31,9 +31,9 @@ jobs:
         run: |
           python -m pytest tests/ -v --cov=imagex --cov-report=term-missing
 
-      - name: Check CLI help
+      - name: Check CLI version
         run: |
-          imagex --help
+          imagex --version
 
   deploy:
     needs: test
