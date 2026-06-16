@@ -44,7 +44,12 @@ def run(file: Path, output_path: Path, args: Optional[dict[str, Any]] = None) ->
     else:
         _add_salt_pepper(img, intensity)
 
-    img.save(str(output_path), format=img.format or "JPEG")
+    kw = {"format": img.format or "JPEG"}
+    if exif := img.info.get("exif"):
+        kw["exif"] = exif
+    if icc := img.info.get("icc_profile"):
+        kw["icc_profile"] = icc
+    img.save(str(output_path), **kw)
     return True
 
 

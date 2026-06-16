@@ -123,7 +123,13 @@ def run(file: Path, output_path: Path, args: Optional[dict[str, Any]] = None) ->
         msg = "args required for watermark"
         raise ValueError(msg)
 
-    img = Image.open(file).convert("RGBA")
+    src = Image.open(file)
+    meta = {}
+    if exif := src.info.get("exif"):
+        meta["exif"] = exif
+    if icc := src.info.get("icc_profile"):
+        meta["icc_profile"] = icc
+    img = src.convert("RGBA")
     action = args["action"]
 
     if action == "add":
@@ -135,7 +141,7 @@ def run(file: Path, output_path: Path, args: Optional[dict[str, Any]] = None) ->
         raise ValueError(msg)
 
     out = img.convert("RGB") if img.mode == "RGBA" else img
-    out.save(str(output_path))
+    out.save(str(output_path), **meta)
     return True
 
 

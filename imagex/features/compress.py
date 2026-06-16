@@ -28,17 +28,22 @@ def run(file: Path, output_path: Path, args: Optional[dict[str, Any]] = None) ->
 
     quality = args.get("quality", 80)
     img = Image.open(file)
+    meta = {}
+    if exif := img.info.get("exif"):
+        meta["exif"] = exif
+    if icc := img.info.get("icc_profile"):
+        meta["icc_profile"] = icc
     fmt = img.format
     original_size = file.stat().st_size
 
     if fmt == "JPEG":
-        _compress_jpeg(img, output_path, quality)
+        _compress_jpeg(img, output_path, quality, meta)
     elif fmt == "PNG":
-        _compress_png(img, output_path, quality)
+        _compress_png(img, output_path, quality, meta)
     elif fmt == "WEBP":
-        _compress_webp(img, output_path, quality)
+        _compress_webp(img, output_path, quality, meta)
     else:
-        _compress_other(img, output_path, fmt, quality)
+        _compress_other(img, output_path, fmt, quality, meta)
 
     new_size = output_path.stat().st_size
     saved = original_size - new_size
@@ -51,17 +56,17 @@ def run(file: Path, output_path: Path, args: Optional[dict[str, Any]] = None) ->
     return True
 
 
-def _compress_jpeg(img: Image.Image, output_path: Path, quality: int):
+def _compress_jpeg(img: Image.Image, output_path: Path, quality: int, meta: dict):
     if img.mode == "RGBA":
         bg = Image.new("RGB", img.size, (255, 255, 255))
         bg.paste(img, mask=img.split()[3])
         img = bg
     elif img.mode != "RGB":
         img = img.convert("RGB")
-    img.save(str(output_path), format="JPEG", quality=quality, optimize=True)
+    img.save(str(output_path), format="JPEG", quality=quality, optimize=True, **meta)
 
 
-def _compress_png(img: Image.Image, output_path: Path, quality: int):
+def _compress_png(img: Image.Image, output_path: Path, quality: int, meta: dict):
     if quality < 50:
         if img.mode == "RGBA":
             bg = Image.new("RGB", img.size, (255, 255, 255))
@@ -71,17 +76,19 @@ def _compress_png(img: Image.Image, output_path: Path, quality: int):
             img = img.convert("RGB")
         colors = max(quality * 2, 16)
         img = img.quantize(colors=colors, method=Image.Quantize.MEDIANCUT)
-        img.save(str(output_path), format="PNG", optimize=True)
+        img.save(str(output_path), format="PNG", optimize=True, **meta)
     else:
-        img.save(str(output_path), format="PNG", optimize=True)
+        img.save(str(output_path), format="PNG", optimize=True, **meta)
 
 
-def _compress_webp(img: Image.Image, output_path: Path, quality: int):
-    img.save(str(output_path), format="WEBP", quality=quality)
+def _compress_webp(img: Image.Image, output_path: Path, quality: int, meta: dict):
+    img.save(str(output_path), format="WEBP", quality=quality, **meta)
 
 
-def _compress_other(img: Image.Image, output_path: Path, fmt: str, quality: int):
-    params = {"format": fmt}
+def _compress_other(
+    img: Image.Image, output_path: Path, fmt: str, quality: int, meta: dict,
+):
+    params = {"format": fmt, **meta}
     if fmt == "GIF":
         params["save_all"] = True
     img.save(str(output_path), **params)

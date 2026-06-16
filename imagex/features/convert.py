@@ -48,16 +48,21 @@ def run(file: Path, output_path: Path, args: Optional[dict[str, Any]] = None) ->
     target_fmt = args["target_format"]
 
     img = Image.open(file)
+    meta = {}
+    if exif := img.info.get("exif"):
+        meta["exif"] = exif
+    if icc := img.info.get("icc_profile"):
+        meta["icc_profile"] = icc
     actual_output = output_path.with_suffix(args["target_ext"])
 
     if target_fmt == "JPEG":
-        _save_as_jpeg(img, actual_output)
+        _save_as_jpeg(img, actual_output, meta)
     elif target_fmt == "PNG":
-        _save_as_png(img, actual_output)
+        _save_as_png(img, actual_output, meta)
     elif target_fmt == "WEBP":
-        _save_as_webp(img, actual_output)
+        _save_as_webp(img, actual_output, meta)
     elif target_fmt == "TIFF":
-        img.save(str(actual_output), format="TIFF")
+        img.save(str(actual_output), format="TIFF", **meta)
     elif target_fmt == "BMP":
         img.save(str(actual_output), format="BMP")
     elif target_fmt == "GIF":
@@ -68,22 +73,22 @@ def run(file: Path, output_path: Path, args: Optional[dict[str, Any]] = None) ->
     return True
 
 
-def _save_as_jpeg(img: Image.Image, output_path: Path):
+def _save_as_jpeg(img: Image.Image, output_path: Path, meta: dict):
     if img.mode == "RGBA":
         bg = Image.new("RGB", img.size, (255, 255, 255))
         bg.paste(img, mask=img.split()[3])
         img = bg
     elif img.mode != "RGB":
         img = img.convert("RGB")
-    img.save(str(output_path), format="JPEG")
+    img.save(str(output_path), format="JPEG", **meta)
 
 
-def _save_as_png(img: Image.Image, output_path: Path):
-    img.save(str(output_path), format="PNG")
+def _save_as_png(img: Image.Image, output_path: Path, meta: dict):
+    img.save(str(output_path), format="PNG", **meta)
 
 
-def _save_as_webp(img: Image.Image, output_path: Path):
-    img.save(str(output_path), format="WEBP")
+def _save_as_webp(img: Image.Image, output_path: Path, meta: dict):
+    img.save(str(output_path), format="WEBP", **meta)
 
 
 def _save_as_heic(img: Image.Image, output_path: Path):

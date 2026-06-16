@@ -78,7 +78,12 @@ def run(file: Path, output_path: Path, args: Optional[dict[str, Any]] = None) ->
         raise ValueError(msg)
 
     resized = img.resize((new_w, new_h), Image.LANCZOS)
-    resized.save(str(output_path), format=img.format or "JPEG")
+    kw = {"format": img.format or "JPEG"}
+    if exif := img.info.get("exif"):
+        kw["exif"] = exif
+    if icc := img.info.get("icc_profile"):
+        kw["icc_profile"] = icc
+    resized.save(str(output_path), **kw)
 
     return True
 
