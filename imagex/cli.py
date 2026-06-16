@@ -1,5 +1,7 @@
 import argparse
+import json
 import sys
+import urllib.request
 from pathlib import Path
 from typing import Optional
 
@@ -163,6 +165,23 @@ def select_files(all_files: list[Path]) -> Optional[list[Path]]:
     return [Path(f) for f in selected]
 
 
+PYPI_URL = "https://pypi.org/pypi/imagex/json"
+
+
+def _check_version():
+    try:
+        req = urllib.request.Request(PYPI_URL, headers={"Accept": "application/json"})
+        resp = urllib.request.urlopen(req, timeout=2)
+        latest = json.loads(resp.read())["info"]["version"]
+        if latest != __version__:
+            console.print(
+                f"  [dim] New version available :) : {latest} → "
+                f"pip install --upgrade imagex[/dim]"
+            )
+    except Exception:
+        pass
+
+
 def main():
     _parse_args()
 
@@ -214,6 +233,7 @@ def main():
             )
 
         console.print("\n[bold green]✓ All done![/bold green]")
+        _check_version()
 
     except KeyboardInterrupt:
         console.print("\n[yellow]Interrupted. Exiting.[/yellow]")
