@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "imagex"
-version = "0.2.1"
+version = "0.2.2"
 description = "All-in-one image processing CLI — resize, convert, watermark, compress, and more"
 readme = "README.md"
 requires-python = ">=3.10"
