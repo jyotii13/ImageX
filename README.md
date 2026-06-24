@@ -29,6 +29,8 @@ Navigate to any folder with images and run `imagex`.
 | Rename Batch | Pattern-based renaming (%n, %o) |
 | Add Noise | Gaussian or salt & pepper (bypass AI detection) |
 | Watermark | Add text/image or remove existing |
+| Grayscale / B&W | Convert to grayscale or true black & white |
+| Invert Colors | Negative effect , invert all colors |
 
 Full details in [OPERATIONS.md](https://github.com/kushal1o1/ImageX/blob/main/OPERATIONS.md).
 
