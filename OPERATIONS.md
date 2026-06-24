@@ -134,6 +134,19 @@ Fills the watermark region by sampling surrounding pixels and blending with a bl
 
 ---
 
+## Grayscale / B&W
+
+Two modes:
+
+**Grayscale**  converts to luminosity (standard grayscale). No quality loss.
+**True Black & White** threshold-based. Pixels above the threshold become white, below become black. Adjust the threshold (0–255) to control the cutoff.
+
+## Invert Colors
+
+Inverts all colors (negative effect). Handles RGBA images by preserving the alpha channel.
+
+---
+
 ## Rotate
 
 Rotates images 90° Left, 90° Right, or 180° (Upside Down). No quality loss — uses Pillow's built-in transpose.
